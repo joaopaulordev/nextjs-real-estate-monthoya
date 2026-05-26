@@ -21,7 +21,8 @@ git status
 git add .
 git commit -m "Created - Layout Home"
 git branch -M main
-git remote add origin https://github.com/joaopaulordev/nextjs-real-state-monthoya.git
+git remote add origin https://github.com/joaopaulordev/nextjs-real-estate-monthoya.git
+git remote set-url origin https://github.com/joaopaulordev/nextjs-real-estate-monthoya.git
 git push -u origin main
 git push -f origin main
 git pull origin main
