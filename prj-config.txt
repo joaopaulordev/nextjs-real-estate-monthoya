@@ -1,0 +1,30 @@
+
+pnpm dlx shadcn@latest init
+pnpm dlx shadcn@latest add button
+pnpm dlx shadcn@latest add select
+pnpm dlx shadcn@latest add dropdown-menu
+
+
+pnpm install tailwind-merge
+pnpm install clsx
+
+pnpm add lucide-react
+
+pnpm add react-number-format
+
+
+--------------------------------------------------------
+git init
+git log
+git status
+git add .
+git commit -m "Created - Layout Home"
+git branch -M main
+git remote add origin https://github.com/joaopaulordev/nextjs-real-state-monthoya.git
+git push -u origin main
+git push -f origin main
+git pull origin main
+---------
+git remote -v
+git remote rm origin
+git fetch origin main
