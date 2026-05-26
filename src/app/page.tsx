@@ -7,20 +7,22 @@ import { TopAgents } from "@/components/top-agents";
 export default function Home() {
 
   return (
-    <>    
-      <SectionHero />      
+    <div>
+      <SectionHero />
+      
+      <div className="flex flex-col gap-30 mt-10 mb-20">  
+        <OurPartners />
 
-      <OurPartners />
+        <ListRealEstates title="Imóveis em destaque" quantity={6} />
 
-      <ListRealEstates title="Imóveis em destaque" quantity={6} />
+        <PropertyToSell />
 
-      <PropertyToSell />
+        <ListRealEstates title="Imóveis Mais Visualizados" quantity={8} />
 
-      <ListRealEstates title="Imóveis Mais Visualizados" quantity={8} />
+        <TopAgents />
 
-      <TopAgents />
-
-      <ListRealEstates title="Imóveis Para Venda" quantity={6} />
-    </>
+        <ListRealEstates title="Imóveis Para Venda" quantity={6} />
+    </div>
+  </div>    
   );
 }

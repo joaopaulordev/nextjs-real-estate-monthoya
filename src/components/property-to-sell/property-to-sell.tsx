@@ -10,9 +10,9 @@ export const PropertyToSell = () => {
           <h2 className="text-2xl font-semibold text-blue">Você tem um imóvel para vender ou alugar?</h2>
           <p className="text-blue">Anuncie seu imóvel conosco e alcance milhares de compradores em potencial.</p>          
         </div>
-        <Link href="/publicar" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">
+        <Link href="/publish" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">
           <Plus size={24} />
-          Anunciar meu imóvel
+          Anunciar Meu Imóvel
         </Link>
       </div>
 

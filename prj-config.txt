@@ -3,7 +3,8 @@ pnpm dlx shadcn@latest init
 pnpm dlx shadcn@latest add button
 pnpm dlx shadcn@latest add select
 pnpm dlx shadcn@latest add dropdown-menu
-
+pnpm dlx shadcn@latest add radio-group
+pnpm dlx shadcn@latest add label
 
 pnpm install tailwind-merge
 pnpm install clsx

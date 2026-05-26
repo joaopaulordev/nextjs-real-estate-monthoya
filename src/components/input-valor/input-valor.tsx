@@ -5,9 +5,10 @@ import { NumericFormat } from 'react-number-format';
 
 interface InputValorProps {
   placeholder: string;
+  prefix?: string;
 }
 
-export const InputValor = ({placeholder}: InputValorProps) => {
+export const InputValor = ({placeholder, prefix = ''}: InputValorProps) => {
   const [name, setName] = React.useState("");
 
 //   const handleSubmit = (event) => {
@@ -27,9 +28,9 @@ export const InputValor = ({placeholder}: InputValorProps) => {
         size={10}
         thousandSeparator="." 
         decimalSeparator=","
-        prefix={'R$'} 
+        prefix={prefix} 
         decimalScale={0} 
-        fixedDecimalScale={true} 
+        fixedDecimalScale={false} 
         allowNegative={false}
         onChange={(e) => setName(e.target.value)}
     />

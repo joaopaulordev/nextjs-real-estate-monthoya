@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import Link from "next/link";
 
 import {
@@ -64,10 +64,10 @@ export const SectionHero = () => {
               <InputValor placeholder="Valor mínimo" />
               <InputValor placeholder="Valor máximo" />            
               
-              <button type="submit" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600 cursor-pointer">
+              <Link href="/real-estate/search" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">
                 <Search size={20} />
-                <Link href="/">Pesquisar</Link>
-              </button>   
+                Pesquisar
+              </Link>
             </form>
       
           </div>
