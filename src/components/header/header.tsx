@@ -12,9 +12,9 @@ export const Header = () => {
 
           <nav className="flex items-center gap-6">
             <ActiveLink href="/">Início</ActiveLink>
-            <ActiveLink href="/real-estate/buy">Comprar</ActiveLink>
-            <ActiveLink href="/real-estate/rent">Alugar</ActiveLink>
-            <ActiveLink href="/real-estate/all">Todos Imóveis</ActiveLink>
+            <ActiveLink href="/real-estate/list/buy">Comprar</ActiveLink>
+            <ActiveLink href="/real-estate/list/rent">Alugar</ActiveLink>
+            <ActiveLink href="/real-estate/list/all">Todos Imóveis</ActiveLink>
             <ActiveLink href="/about">Sobre Nós</ActiveLink>            
           </nav>     
           <Link href="/publish" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">

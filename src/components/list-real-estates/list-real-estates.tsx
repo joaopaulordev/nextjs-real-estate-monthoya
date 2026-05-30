@@ -3,9 +3,10 @@ import Link from "next/link";
 interface ListRealEstatesProps {
   title?: string;
   quantity?: number;
+  size?: number;
 }
 
-export const ListRealEstates = ({ title, quantity }: ListRealEstatesProps) => {
+export const ListRealEstates = ({ title, quantity, size = 85 }: ListRealEstatesProps) => {
   return (
       <div className="">        
         <div className="flex flex-col items-center justify-center gap-2 mb-10">
@@ -20,8 +21,8 @@ export const ListRealEstates = ({ title, quantity }: ListRealEstatesProps) => {
         </div>                                          
         <div className="flex flex-wrap justify-center gap-6">
           {[...Array(quantity)].map((_, index) => (
-            <Link href={`/imovel/${index}`} key={index}>            
-              <div className="relative bg-white rounded-lg shadow p-4 w-85">
+            <Link href={`/real-estate/view-real-estate/${index}`} key={index}>            
+              <div className={`relative bg-white rounded-lg shadow p-4 w-${size}`}>
                 <img
                   src="/6954a0c2-e5d3-4358-8528-d7c8262fb637.jpeg"
                   alt="Imagem do imóvel"

@@ -123,7 +123,7 @@ export const FilterRealEstates = () => {
               <X size={20} />
               Limpar
             </Button>
-            <Link href="/real-estate/search" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">
+            <Link href="/real-estate/list/search" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">
               <Search size={20} />
               Pesquisar
             </Link>
