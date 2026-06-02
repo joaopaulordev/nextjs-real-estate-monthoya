@@ -7,32 +7,29 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
 import { ChevronDown } from "lucide-react"
-
-// 1. Define your dynamic data structure
-type FilterOption = {
-  id: string
-  label: string
-  checked: boolean
-}
+import useTipoImoveis from "@/contexts/tipo-imovel/hooks/use-tipo-imovel";
+import { TipoImovel } from "@/contexts/tipo-imovel/models/tipo-imovel";
 
 
 export const DropDownTipoImovel = () => {
-  // 2. Manage the dynamic options in state
-  const [options, setOptions] = React.useState<FilterOption[]>([
-    { id: "opt-1", label: "Apartamento", checked: false },
-    { id: "opt-2", label: "Casa", checked: true },
-    { id: "opt-3", label: "Sala Comercial", checked: false },
-    { id: "opt-4", label: "Salão", checked: false },
-    { id: "opt-5", label: "Terreno", checked: false },
-    { id: "opt-6", label: "Garagem", checked: false },
-  ])
-    
+  const { responseTipoImoveis, isLoadingTipoImoveis } = useTipoImoveis();
+  const [options, setOptions] = React.useState<TipoImovel[]>([]);
+
+  const optionsData = responseTipoImoveis?.tipoImoveis?.map((tipo) => ({
+    id: tipo.id,
+    descricao: tipo.descricao,
+    checked: false,
+  }))
+
+  React.useEffect(() => {
+    setOptions(optionsData);
+  }, [optionsData] );
+
+      
   // 3. Handle toggling individual checkboxes dynamically
   const handleToggle = (id: string) => {
     setOptions((prev) =>
@@ -49,18 +46,15 @@ export const DropDownTipoImovel = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        {/* <DropdownMenuLabel>Appearance</DropdownMenuLabel> */}
-        {/* <DropdownMenuSeparator /> */}
-        {/* 4. Dynamically map over the options array */}
-        {options.map((option) => (
+        {options?.map((tipo) => (
           <DropdownMenuCheckboxItem
-            key={option.id}
-            checked={option.checked}
-            onCheckedChange={() => handleToggle(option.id)}
+            key={tipo.id}
+            checked={tipo.checked}
+            onCheckedChange={() => handleToggle(tipo.id)}
           >
-            {option.label}
+            {tipo.descricao}
           </DropdownMenuCheckboxItem>
-        ))}
+        ))}  
       </DropdownMenuContent>
     </DropdownMenu>
   );

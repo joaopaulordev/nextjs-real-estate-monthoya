@@ -100,7 +100,7 @@ export default async function RealEstates({ params }: RealEstatePageProps) {
                 </div>
                 <div className="bg-primary-50 pt-3 pl-3 pb-5 rounded-lg w-full flex flex-col gap-0">
                     <h2 className="text-2xl font-semibold">Imóveis semelhantes</h2>
-                    <ListRealEstates quantity={3} size={70} />
+                    <ListRealEstates quantity={3} />
                 </div>
             </div>  
             <div className="sticky top-4 flex flex-col items-start justify-center gap-4 w-full max-w-xsS">

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/footer";
+import QueryProvider from "./QueryProvider";
 
 export const metadata: Metadata = {
   title: "Imobiliária Monthoya",
@@ -35,7 +36,7 @@ export default function RootLayout({
         <div className={`${inter.className} min-h-screen bg-white`}>  
           <div className="mx-auto max-w-375 px-8">
             <Header />
-            <main className="flex flex-col gap-10">{children}</main>            
+            <main className="flex flex-col gap-10"><QueryProvider>{children}</QueryProvider></main>            
             <Footer />
           </div>      
         </div>

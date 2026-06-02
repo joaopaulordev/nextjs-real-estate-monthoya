@@ -1,20 +1,45 @@
-import { Plus, Search } from 'lucide-react';
-import Link from "next/link";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { DropDownTipoImovel } from "@/components/dropDown-tipo-imovel";
+import { Search } from 'lucide-react';
 import { InputValor } from '@/components/input-valor';
+import useFinalidades from '@/contexts/finalidade/hooks/use-finalidades';
+import usePretensoes from '@/contexts/pretensao/hooks/use-pretensoes';
 
+import { z } from "zod";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Select from "react-select";
+import useTipoImoveis from '@/contexts/tipo-imovel/hooks/use-tipo-imovel';
+import { SelectDropdown } from '../select-dropdown';
+import { useRouter } from "next/navigation";
+
+const imovelNewFormSchema = z.object({
+  finalidadeId: z.string().optional(),
+  pretensaoId: z.string().optional(),
+  tipoImoveis: z.array(z.object({ value: z.number(), label: z.string() })).optional(),
+  valorMin: z.string().optional(),
+  valorMax: z.string().optional(),
+});
+
+type ImovelNewFormSchema = z.infer<typeof imovelNewFormSchema>;
 
 export const SectionHero = () => {
+  const router = useRouter();
+  const { responseFinalidades, isLoadingFinalidades } = useFinalidades();
+  const { responsePretensoes, isLoadingPretensoes } = usePretensoes();
+  const { responseTipoImoveis, isLoadingTipoImoveis } = useTipoImoveis();
+
+  const form = useForm<ImovelNewFormSchema>({
+      resolver: zodResolver(imovelNewFormSchema),
+      defaultValues: {
+        tipoImoveis: [] 
+      },
+  });
+
+  function handleSubmit(payload: ImovelNewFormSchema) {
+    console.log(payload);
+    const serializedData = encodeURIComponent(JSON.stringify(payload));
+    router.push(`/real-estate/list/search?data=${serializedData}`);
+  }
+
 
   return (
       <section className="bg-blue-100 rounded-lg border">
@@ -31,43 +56,38 @@ export const SectionHero = () => {
 
           <div className="absolute z-10 top-100 left-20 md:w-250 bg-white/90 rounded-lg">
 
-            <form className="w-full flex items-center justify-start gap-4 p-6">
-              <Select>
-                <SelectTrigger className="w-full max-w-48">
-                  <SelectValue placeholder="Finalidade" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {/* <SelectLabel>Fruits</SelectLabel> */}
-                    <SelectItem value="comercial">Comercial</SelectItem>
-                    <SelectItem value="residencial">Residencial</SelectItem>
-                    <SelectItem value="industrial">Industrial</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-
-              <Select>
-                <SelectTrigger className="w-full max-w-48">
-                  <SelectValue placeholder="Pretensão" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {/* <SelectLabel>Fruits</SelectLabel> */}
-                    <SelectItem value="comercial">Venda</SelectItem>
-                    <SelectItem value="residencial">Locação</SelectItem>                
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-
-              <DropDownTipoImovel />
-
-              <InputValor placeholder="Valor mínimo" />
-              <InputValor placeholder="Valor máximo" />            
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col items-start justify-center gap-2 p-4"> 
+              <div className="flex items-center gap-4">
+                <SelectDropdown list={responseFinalidades?.finalidades} placeholder="Finalidade" {...form.register("finalidadeId", { required: "Selecione uma finalidade" })}/>
+                <SelectDropdown list={responsePretensoes?.pretensoes} placeholder="Pretensao" {...form.register("pretensaoId", { required: "Selecione uma pretensão" })}/>
               
-              <Link href="/real-estate/search" className="flex items-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600">
-                <Search size={20} />
-                Pesquisar
-              </Link>
+                <Controller
+                  name="tipoImoveis"
+                  control={form.control}
+                  rules={{ required: "Selecione pelo menos um tipo de imóvel" }} // Validation rules
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      className="min-w-143" // Adjust width as needed
+                      placeholder="Tipo de imóvel"
+                      ref={ref}
+                      options={responseTipoImoveis?.tipoImoveis?.map((tipo) => ({ value: tipo.id, label: tipo.descricao }))} // Map API response to Select options                    
+                      value={value} 
+                      onChange={onChange} // Directly passes selected array back to React Hook Form
+                      isMulti // Enables the multi-select dropdown functionality
+                      classNamePrefix="react-select"
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex items-center justify-start gap-4 w-full">
+                <InputValor placeholder="Valor mínimo" {...form.register("valorMin")}/>
+                <InputValor placeholder="Valor máximo" {...form.register("valorMax")}/>            
+                
+                <button type="submit" className="flex items-center justify-center gap-2 flex-1 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600 cursor-pointer">
+                  <Search size={20} />
+                  Pesquisar
+                </button>
+              </div>
             </form>
       
           </div>

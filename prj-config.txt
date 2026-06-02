@@ -5,6 +5,7 @@ pnpm dlx shadcn@latest add select
 pnpm dlx shadcn@latest add dropdown-menu
 pnpm dlx shadcn@latest add radio-group
 pnpm dlx shadcn@latest add label
+pnpm dlx shadcn@latest add input
 
 pnpm install tailwind-merge
 pnpm install clsx
@@ -13,6 +14,13 @@ pnpm add lucide-react
 
 pnpm add react-number-format
 
+pnpm add axios
+
+pnpm add @tanstack/react-query
+
+pnpm add react-hook-form zod @hookform/resolvers
+
+pnpm add react-select
 
 --------------------------------------------------------
 git init
