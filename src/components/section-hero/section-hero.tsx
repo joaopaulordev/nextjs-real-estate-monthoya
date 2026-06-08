@@ -3,23 +3,14 @@ import { InputValor } from '@/components/input-valor';
 import useFinalidades from '@/contexts/finalidade/hooks/use-finalidades';
 import usePretensoes from '@/contexts/pretensao/hooks/use-pretensoes';
 
-import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Select from "react-select";
 import useTipoImoveis from '@/contexts/tipo-imovel/hooks/use-tipo-imovel';
 import { SelectDropdown } from '../select-dropdown';
 import { useRouter } from "next/navigation";
+import { imovelNewFormSchema, ImovelNewFormSchema } from '@/contexts/imovel/models/schema-imovel';
 
-const imovelNewFormSchema = z.object({
-  finalidadeId: z.string().optional(),
-  pretensaoId: z.string().optional(),
-  tipoImoveis: z.array(z.object({ value: z.number(), label: z.string() })).optional(),
-  valorMin: z.string().optional(),
-  valorMax: z.string().optional(),
-});
-
-type ImovelNewFormSchema = z.infer<typeof imovelNewFormSchema>;
 
 export const SectionHero = () => {
   const router = useRouter();
@@ -35,7 +26,6 @@ export const SectionHero = () => {
   });
 
   function handleSubmit(payload: ImovelNewFormSchema) {
-    console.log(payload);
     const serializedData = encodeURIComponent(JSON.stringify(payload));
     router.push(`/real-estate/list/search?data=${serializedData}`);
   }
@@ -58,8 +48,8 @@ export const SectionHero = () => {
 
             <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col items-start justify-center gap-2 p-4"> 
               <div className="flex items-center gap-4">
-                <SelectDropdown list={responseFinalidades?.finalidades} placeholder="Finalidade" {...form.register("finalidadeId", { required: "Selecione uma finalidade" })}/>
-                <SelectDropdown list={responsePretensoes?.pretensoes} placeholder="Pretensao" {...form.register("pretensaoId", { required: "Selecione uma pretensão" })}/>
+                <SelectDropdown list={responseFinalidades} placeholder="Finalidade" {...form.register("finalidadeId", { required: "Selecione uma finalidade" })}/>
+                <SelectDropdown list={responsePretensoes} placeholder="Pretensão" {...form.register("pretensaoId", { required: "Selecione uma pretensão" })}/>
               
                 <Controller
                   name="tipoImoveis"
@@ -67,10 +57,11 @@ export const SectionHero = () => {
                   rules={{ required: "Selecione pelo menos um tipo de imóvel" }} // Validation rules
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
+                      instanceId="page-select" 
                       className="min-w-143" // Adjust width as needed
                       placeholder="Tipo de imóvel"
                       ref={ref}
-                      options={responseTipoImoveis?.tipoImoveis?.map((tipo) => ({ value: tipo.id, label: tipo.descricao }))} // Map API response to Select options                    
+                      options={responseTipoImoveis?.map((tipo) => ({ value: tipo.id, label: tipo.descricao }))} // Map API response to Select options                    
                       value={value} 
                       onChange={onChange} // Directly passes selected array back to React Hook Form
                       isMulti // Enables the multi-select dropdown functionality
@@ -80,8 +71,8 @@ export const SectionHero = () => {
                 />
               </div>
               <div className="flex items-center justify-start gap-4 w-full">
-                <InputValor placeholder="Valor mínimo" {...form.register("valorMin")}/>
-                <InputValor placeholder="Valor máximo" {...form.register("valorMax")}/>            
+                <InputValor placeholder="Valor mínimo" {...form.register("valor_inicial")}/>
+                <InputValor placeholder="Valor máximo" {...form.register("valor_final")}/>            
                 
                 <button type="submit" className="flex items-center justify-center gap-2 flex-1 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600 cursor-pointer">
                   <Search size={20} />

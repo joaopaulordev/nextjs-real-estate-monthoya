@@ -13,7 +13,7 @@ export default function usePretensoes() {
   });
 
   return {
-    responsePretensoes: response || [],
+    responsePretensoes: response?.pretensoes || [],
     isLoadingPretensoes: isLoading,
   };
 }

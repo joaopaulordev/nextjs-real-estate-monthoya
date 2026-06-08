@@ -6,6 +6,8 @@ export interface Imovel {
   ativo: boolean;
   lancamento: boolean;
   destaque: boolean;
+  pretensao: number;
+  tipo_imovel: number;
   valor: number;
   endereco: string;
   visualizacoes: number;

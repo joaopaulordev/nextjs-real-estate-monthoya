@@ -12,7 +12,7 @@ export default function useImoveisMaisVisualizados() {
   });
   
   const sorted = responseViews?.imoveis.toSorted((a, b) => b.visualizacoes - a.visualizacoes);
-  const listSorted = sorted?.slice(0, 6).map((item) => (item))
+  const listSorted = sorted?.slice(0, 3).map((item) => (item))
 
   return {
     imoveisSortedByViews: listSorted || [],

@@ -1,4 +1,4 @@
 export interface Pretensao {
-     id: string;
+     id: number;
      descricao: string;
 }

@@ -12,7 +12,7 @@ export default function useTipoImoveis() {
   });
 
   return {
-    responseTipoImoveis: response || [],
+    responseTipoImoveis: response?.tipoImoveis || [],
     isLoadingTipoImoveis: isLoading,
   };
 }

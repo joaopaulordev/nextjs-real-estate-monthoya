@@ -12,7 +12,7 @@ export default function useImoveisLancamento() {
   });
 
   return {
-    responseLancamento: responseLanc || [],
+    responseLancamento: responseLanc?.imoveis?.slice(0, 2).map((item) => (item)) || [] || [],
     isLoadingImoveisLanc: isLoadingLanc,
   };
 }

@@ -12,7 +12,7 @@ export default function useImoveisDestaque() {
   });
 
   return {
-    responseDestaque: responseDestaque || [],
+    responseDestaque: responseDestaque?.imoveis?.slice(0, 2).map((item) => (item)) || [],
     isLoadingImoveisDestaque: isLoadingDestaque,
   };
 }

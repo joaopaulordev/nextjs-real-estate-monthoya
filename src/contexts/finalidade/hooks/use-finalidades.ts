@@ -13,7 +13,7 @@ export default function useFinalidades() {
   });
 
   return {
-    responseFinalidades: response || [],
+    responseFinalidades: response?.finalidades || [],
     isLoadingFinalidades: isLoading,
   };
 }

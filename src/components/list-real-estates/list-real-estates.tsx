@@ -1,6 +1,8 @@
 'use client'
 
 import { Imovel } from "@/contexts/imovel/models/imovel";
+import usePretensoes from "@/contexts/pretensao/hooks/use-pretensoes";
+import useTipoImoveis from "@/contexts/tipo-imovel/hooks/use-tipo-imovel";
 import { priceFormatter } from "@/helpers/formatter";
 import Link from "next/link";
 
@@ -8,10 +10,14 @@ import Link from "next/link";
 interface ListRealEstatesProps {
   title?: string;
   imoveis: Imovel[];
+  type?: string;
+  buttonIsVisible?: boolean;
 }
 
-export const ListRealEstates = ({ title, imoveis }: ListRealEstatesProps) => {
-    
+export const ListRealEstates = ({ title, imoveis, type, buttonIsVisible = true }: ListRealEstatesProps) => {
+    const { responsePretensoes, isLoadingPretensoes } = usePretensoes();
+    const { responseTipoImoveis, isLoadingTipoImoveis } = useTipoImoveis();
+            
     return (      
       <div className="">  
         <div className="flex flex-col items-center justify-center gap-2 mb-10">
@@ -33,7 +39,7 @@ export const ListRealEstates = ({ title, imoveis }: ListRealEstatesProps) => {
                   alt="Imagem do imóvel"
                   className="w-full h-48 object-cover rounded mb-4"
                 />                                 
-                {imovel.id % 2 === 0 ? (
+                {responsePretensoes?.find((p) => p.id === imovel.pretensao)?.descricao === "Venda" ? (
                   <span className="absolute top-2 left-2 bg-blue text-white text-xs font-bold px-2 py-1 rounded">Venda</span>
                 ) : (
                     <span className="absolute top-2 left-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded">Locação</span>                                                                          
@@ -43,8 +49,8 @@ export const ListRealEstates = ({ title, imoveis }: ListRealEstatesProps) => {
                   <p className="font-regular text-xs">{imovel.endereco}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-blue">{priceFormatter.format(imovel.valor)}</span>                  
-                  <span className="bg-indigo-700 text-white text-xs font-bold px-2 py-1 rounded">Sobrado</span>
+                  <span className="text-lg font-bold text-blue">{priceFormatter.format(imovel.valor)}</span> 
+                  <span className="bg-indigo-700 text-white text-xs font-bold px-2 py-1 rounded">{responseTipoImoveis.find((t) => t.id === imovel.tipo_imovel)?.descricao}</span>
                 </div>                
                 <hr className="border-t border-gray-300 my-4"></hr>
                 <div className="mt-2 flex items-center justify-center gap-2">
@@ -59,11 +65,17 @@ export const ListRealEstates = ({ title, imoveis }: ListRealEstatesProps) => {
             </Link>
           ))}
         </div>
-        <div className="flex justify-center mt-5">
-          <Link href="/imoveis" className="text-sm font-medium bg-blue text-white hover:bg-blue-700 py-2 px-4 rounded">
-            Ver todos {title} {/* - <span className="text-xs text-white">{imoveis?.length} disponíveis</span> */}
-          </Link>
-        </div>        
+        {buttonIsVisible &&
+          <div className="flex justify-center mt-5">
+            <Link href={`/real-estate/see-all/${type}`} className="text-sm font-medium bg-blue text-white hover:bg-blue-700 py-2 px-4 rounded">
+              {type === "mais-visualizados" ? (
+                <span>Ver Top 15 {title}</span> 
+              ): (
+                <span>Ver Todos {title}</span> 
+              )}              
+            </Link>
+          </div>
+        }        
      </div>
     
   );

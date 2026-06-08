@@ -1,4 +1,5 @@
 "use client";
+
 import { ListRealEstates } from "@/components/list-real-estates";
 import { OurPartners } from "@/components/our-partners";
 import { PropertyToSell } from "@/components/property-to-sell";
@@ -21,15 +22,15 @@ export default function Home() {
       <div className="flex flex-col gap-30 mt-10 mb-20">  
         <OurPartners />
 
-        <ListRealEstates title="Imóveis em destaque" imoveis={responseDestaque.imoveis}/>
+        <ListRealEstates title="Imóveis em destaque" type="destaques" imoveis={responseDestaque}/>
     
         <PropertyToSell />
 
-        <ListRealEstates title="Lançamentos" imoveis={responseLancamento.imoveis} />
+        <ListRealEstates title="Lançamentos" type="lancamentos" imoveis={responseLancamento} />
 
         <TopAgents />
 
-        <ListRealEstates title="Imóveis Mais Visualizados" imoveis={imoveisSortedByViews} />        
+        <ListRealEstates title="Imóveis Mais Visualizados" type="mais-visualizados" imoveis={imoveisSortedByViews} />        
     </div>
   </div>    
   );
