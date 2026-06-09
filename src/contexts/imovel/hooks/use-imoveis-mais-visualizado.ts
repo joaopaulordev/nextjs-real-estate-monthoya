@@ -5,14 +5,14 @@ import { fetcher, api } from "@/helpers/api";
 import { Response } from "../models/response";
 
 
-export default function useImoveisMaisVisualizados() {
+export default function useImoveisMaisVisualizados(quantityToShow: number) {
   const { data: responseViews, isLoadingViews, isErrorViews, errorViews } = useQuery<Response>({
     queryKey: ['imoveis-views'],
     queryFn: () => api.post("/imoveis/listar", { ativo: true }).then((res) => res.data),
   });
   
   const sorted = responseViews?.imoveis.toSorted((a, b) => b.visualizacoes - a.visualizacoes);
-  const listSorted = sorted?.slice(0, 3).map((item) => (item))
+  const listSorted = sorted?.slice(0, quantityToShow).map((item) => (item))
 
   return {
     imoveisSortedByViews: listSorted || [],

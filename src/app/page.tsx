@@ -5,15 +5,18 @@ import { OurPartners } from "@/components/our-partners";
 import { PropertyToSell } from "@/components/property-to-sell";
 import { SectionHero } from "@/components/section-hero";
 import { TopAgents } from "@/components/top-agents";
+import useConfiguracoes from "@/contexts/configuracao/hooks/use-configuracoes";
 import useImoveisDestaque from "@/contexts/imovel/hooks/use-imoveis-destaque";
 import useImoveisLancamento from "@/contexts/imovel/hooks/use-imoveis-lancamento";
 import useImoveisMaisVisualizados from "@/contexts/imovel/hooks/use-imoveis-mais-visualizado";
 
 export default function Home() {
 
-  const { responseDestaque, isLoadingImoveisDestaque } = useImoveisDestaque();
-  const { responseLancamento, isLoadingImoveisLanc } = useImoveisLancamento();
-  const { imoveisSortedByViews, isLoadingImoveisViews } = useImoveisMaisVisualizados();
+  const { responseConfiguracoes, isLoadingConfiguracoes } = useConfiguracoes(); 
+      
+  const { responseDestaque, isLoadingImoveisDestaque } = useImoveisDestaque(responseConfiguracoes[0]?.quantidade);
+  const { responseLancamento, isLoadingImoveisLanc } = useImoveisLancamento(responseConfiguracoes[1]?.quantidade);
+  const { imoveisSortedByViews, isLoadingImoveisViews } = useImoveisMaisVisualizados(responseConfiguracoes[2]?.quantidade);
 
   return (
     <div>
@@ -27,10 +30,10 @@ export default function Home() {
         <PropertyToSell />
 
         <ListRealEstates title="Lançamentos" type="lancamentos" imoveis={responseLancamento} />
-
+        
         <TopAgents />
-
-        <ListRealEstates title="Imóveis Mais Visualizados" type="mais-visualizados" imoveis={imoveisSortedByViews} />        
+        
+        <ListRealEstates title="Imóveis Mais Visualizados" type="mais-visualizados" imoveis={imoveisSortedByViews} />                
     </div>
   </div>    
   );

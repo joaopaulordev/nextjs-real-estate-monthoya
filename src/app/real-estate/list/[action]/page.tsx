@@ -16,15 +16,8 @@ export default function RealEstates() {
   const searchParams = useSearchParams();
   const rawData = searchParams.get('data'); // Extract 'data' from URL
 
-  let title = "";
-  if (action === "buy") {
-    title = "Imóveis à venda em Paranavaí-PR";
-  } else if (action === "rent") {
-    title = "Imóveis para locação em Paranavaí-PR";
-  } else if (action === "all") {
-    title = "Todos Imóveis em Paranavaí-PR";
-  } else if (action === "search") {
-    title = "Pesquise Seus Imóveis em Paranavaí-PR";  
+  const title = "Pesquise Imóveis em Paranavaí-PR";
+  if (action === "search") {      
     useEffect(() => {      
       setParamData(JSON.parse(decodeURIComponent(rawData || "")));      
     }, []);    
@@ -49,7 +42,7 @@ export default function RealEstates() {
      
       <FilterRealEstates count={responseCount} imovelFormSchema={paramData} onSubmit={handleFilterResponse} />   
       
-      <ListRealEstates type="ver-todos" buttonIsVisible={true} imoveis={response} />
+      <ListRealEstates buttonIsVisible={false} imoveis={response} />
     </div>
   );
 }

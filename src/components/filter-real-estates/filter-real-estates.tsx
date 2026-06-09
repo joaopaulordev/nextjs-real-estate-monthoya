@@ -63,7 +63,7 @@ export const FilterRealEstates = ({ count, imovelFormSchema, onSubmit }: FilterR
             Filtros
           </button>
 
-          <span className="text-base text-blue mt-2">Exibindo {count} de 100 imóveis</span>
+          <span className="text-base text-blue mt-2">Exibindo {count} imóveis</span>
         </div>
 
         <SelectUI>
