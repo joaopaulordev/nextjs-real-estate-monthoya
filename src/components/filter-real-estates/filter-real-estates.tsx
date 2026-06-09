@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { InputValor } from '@/components/input-valor';
+import { InputPreco } from '@/components/input-valor';
 import { RadioGroupButton } from '../radio-group-button';
 import { Button } from '../ui/button';
 import useFinalidades from '@/contexts/finalidade/hooks/use-finalidades';
@@ -24,6 +24,8 @@ import usePretensoes from '@/contexts/pretensao/hooks/use-pretensoes';
 import useTipoImoveis from '@/contexts/tipo-imovel/hooks/use-tipo-imovel';
 import { SelectDropdown } from '../select-dropdown';
 import { imovelNewFormSchema, ImovelNewFormSchema } from '@/contexts/imovel/models/schema-imovel';
+
+import { NumericFormat } from 'react-number-format';
 
 
 interface FilterRealEstatesProps {
@@ -123,22 +125,22 @@ export const FilterRealEstates = ({ count, imovelFormSchema, onSubmit }: FilterR
             <div className="w-full flex flex-col items-center justify-center gap-0.5">
               <span className="text-base text-blue font-semibold">Valor Imóvel</span>
               <div className="flex items-center justify-start gap-1">
-                <InputValor placeholder="Valor mínimo" defaultValue={imovelFormSchema?.valor_inicial} {...form.register("valor_inicial")}/>
-                <InputValor placeholder="Valor máximo" defaultValue={imovelFormSchema?.valor_final} {...form.register("valor_final")}/>
+                <InputPreco form={form} name="valor_inicial" placeholder="Valor Inicial" defaultValue={imovelFormSchema?.valor_inicial}/>
+                <InputPreco form={form} name="valor_final" placeholder="Valor Final" defaultValue={imovelFormSchema?.valor_final} />
               </div>              
             </div>                         
             <div className="w-full flex flex-col items-center justify-center gap-0.5">
               <span className="text-base text-blue font-semibold">Área total (m²)</span>
               <div className="flex items-center justify-start gap-1">
-                <InputValor placeholder="Área mínima" />
-                <InputValor placeholder="Área máxima" />
+                {/* <InputValor placeholder="Área mínima" />
+                <InputValor placeholder="Área máxima" /> */}
               </div>
             </div>
             <div className="w-full flex flex-col items-center justify-center gap-0.5">
               <span className="text-base text-blue font-semibold">Área construída (m²)</span>
               <div className="flex items-center justify-start gap-1">
-                <InputValor placeholder="Área mínima" />
-                <InputValor placeholder="Área máxima" />
+                {/* <InputValor placeholder="Área mínima" />
+                <InputValor placeholder="Área máxima" /> */}
               </div>
             </div>
           </div>
