@@ -15,12 +15,12 @@ export default function RealEstates() {
   
   let title = "";
   if (action === "destaques") {
-    title = "Todos Imóveis em Destaque de Paranavaí-PR";   
+    title = "Imóveis em Destaque de Paranavaí-PR";   
     useEffect(() => {    
       setParamData({...paramData, ativo: true, destaque: true})      
     }, []);   
   } else if (action === "lancamentos") {
-    title = "Todos Imóveis em Lançamento de Paranavaí-PR";
+    title = "Imóveis em Lançamento de Paranavaí-PR";
     useEffect(() => {    
       setParamData({...paramData, ativo: true, lancamento: true})      
     }, []);   

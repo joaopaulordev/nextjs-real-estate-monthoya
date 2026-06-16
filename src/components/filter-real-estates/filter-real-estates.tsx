@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Funnel, Search, X } from 'lucide-react';
 
 import { useForm, Controller } from "react-hook-form";
@@ -16,43 +16,73 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { InputPreco } from '@/components/input-valor';
-import { RadioGroupButton } from '../radio-group-button';
-import { Button } from '../ui/button';
+import { InputPreco } from '@/components/input-preco';
 import useFinalidades from '@/contexts/finalidade/hooks/use-finalidades';
 import usePretensoes from '@/contexts/pretensao/hooks/use-pretensoes';
 import useTipoImoveis from '@/contexts/tipo-imovel/hooks/use-tipo-imovel';
 import { SelectDropdown } from '../select-dropdown';
 import { imovelNewFormSchema, ImovelNewFormSchema } from '@/contexts/imovel/models/schema-imovel';
-
-import { NumericFormat } from 'react-number-format';
+import { InputArea } from '../input-area';
+import { InputRadioGroup } from '../input-radio-group';
 
 
 interface FilterRealEstatesProps {
   count: number;
-  imovelFormSchema: ImovelNewFormSchema | undefined;
-  onSubmit?: (data: ImovelNewFormSchema) => void;
+  paramData: ImovelNewFormSchema | undefined;
+  onTrigger: (data: ImovelNewFormSchema) => void;
 }
 
-export const FilterRealEstates = ({ count, imovelFormSchema, onSubmit }: FilterRealEstatesProps) => {
+export const FilterRealEstates = ({ count, paramData, onTrigger }: FilterRealEstatesProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const { responseFinalidades, isLoadingFinalidades } = useFinalidades();
   const { responsePretensoes, isLoadingPretensoes } = usePretensoes();
   const { responseTipoImoveis, isLoadingTipoImoveis } = useTipoImoveis();
 
+  useEffect(() => {    
+    setLoading(false);  
+    form.reset({
+      dormitorios: "",
+      banheiros: "",
+      suites: "",
+      vagas: ""
+    });
+
+  }, []);
+
+
   const form = useForm<ImovelNewFormSchema>({
       resolver: zodResolver(imovelNewFormSchema),
-      defaultValues: {        
-        tipoImoveis: imovelFormSchema?.tipoImoveis?.map((tipo) => ({ value: tipo.value, label: tipo.label })) || []
-      },
   });
 
-  function handleSubmit(payload: ImovelNewFormSchema) {    
-    if (onSubmit) {
-      onSubmit(payload);
+  function handleSubmit(payload: ImovelNewFormSchema) {                 
+    if (onTrigger){
+      onTrigger(payload)
     }
   }
+
+  function clearFields() {        
+    form.reset({
+      valor_inicial: "",
+      valor_final: "",
+      finalidadeId: "default",
+      pretensaoId: "default",
+      area_total_min: "",
+      area_total_max: "",
+      area_construida_min: "",
+      area_construida_max: "",
+      tipoImoveis: [],
+      dormitorios: "",
+      banheiros: "",
+      suites: "",
+      vagas: ""
+    });
+    
+    form.handleSubmit(handleSubmit)();
+  }
+
+  if (loading) return <p>Carregando...</p>;
 
   return (
     <div className="flex flex-col gap-4">
@@ -65,7 +95,7 @@ export const FilterRealEstates = ({ count, imovelFormSchema, onSubmit }: FilterR
             Filtros
           </button>
 
-          <span className="text-base text-blue mt-2">Exibindo {count} imóveis</span>
+          <span className="text-base text-blue mt-2">Exibindo {count} imóveis</span>          
         </div>
 
         <SelectUI>
@@ -90,24 +120,24 @@ export const FilterRealEstates = ({ count, imovelFormSchema, onSubmit }: FilterR
       {isVisible && 
         <form onSubmit={form.handleSubmit(handleSubmit)} className="w-full flex flex-col items-center justify-start gap-10 p-6 bg-primary-50 rounded">
           <div className="w-full flex items-center justify-center gap-4">                          
-              <SelectDropdown list={responseFinalidades} selectedValue={imovelFormSchema?.finalidadeId} placeholder="Finalidade" {...form.register("finalidadeId", { required: "Selecione uma finalidade" })}/>
-              <SelectDropdown list={responsePretensoes} selectedValue={imovelFormSchema?.pretensaoId} placeholder="Pretensão" {...form.register("pretensaoId", { required: "Selecione uma pretensão" })}/>
+              <SelectDropdown list={responseFinalidades} selectedValue={paramData?.finalidadeId} placeholder="Finalidade" {...form.register("finalidadeId", { required: "Selecione uma finalidade" })}/>
+              <SelectDropdown list={responsePretensoes} selectedValue={paramData?.pretensaoId} placeholder="Pretensão" {...form.register("pretensaoId", { required: "Selecione uma pretensão" })}/>
               
                 <Controller
                   name="tipoImoveis"
                   control={form.control}
-                  rules={{ required: "Selecione pelo menos um tipo de imóvel" }} // Validation rules
+                  // rules={{ required: "Selecione pelo menos um tipo de imóvel" }} // Validation rules
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
+                      isMulti // Enables the multi-select dropdown functionality
                       instanceId="page-select" 
                       className="min-w-143" // Adjust width as needed
                       placeholder="Tipo de imóvel"
-                      ref={ref}                      
-                      options={responseTipoImoveis?.map((tipo) => ({ value: tipo.id, label: tipo.descricao }))} // Map API response to Select options                    
-                      // value={value} // Set the value from the form schema
-                      defaultValue={imovelFormSchema?.tipoImoveis?.map((tipo) => ({ value: tipo.value, label: tipo.label }))} // Set default value from the form schema
-                      onChange={onChange} // Directly passes selected array back to React Hook Form
-                      isMulti // Enables the multi-select dropdown functionality
+                      ref={ref}                     
+                      options={responseTipoImoveis?.map((tipo) => ({ value: tipo.id, label: tipo.descricao }))} // Map API response to Select options
+                      value={value} // Set the value from the form schema                      
+                      defaultValue={paramData?.tipoImoveis?.map((tipo) => ({ value: tipo.value, label: tipo.label }))}
+                      onChange={onChange} // Directly passes selected array back to React Hook Form                      
                       classNamePrefix="react-select"                      
                     />
                   )}
@@ -115,41 +145,41 @@ export const FilterRealEstates = ({ count, imovelFormSchema, onSubmit }: FilterR
           </div>  
 
           <div className="w-full flex items-center justify-center gap-7">
-            <RadioGroupButton title="Dormitórios" />
-            <RadioGroupButton title="Banheiros" />
-            <RadioGroupButton title="Suites" />
-            <RadioGroupButton title="Vagas" />
-          </div>                      
+            <InputRadioGroup {...form.register("dormitorios")} title="Dormitórios"  />
+            <InputRadioGroup {...form.register("banheiros")} title="Banheiros" />
+            <InputRadioGroup {...form.register("suites")} title="Suítes" />
+            <InputRadioGroup {...form.register("vagas")} title="Vagas" />
+          </div>    
           
           <div className="w-full flex items-center justify-center gap-7">
-            <div className="w-full flex flex-col items-center justify-center gap-0.5">
+            <div className="w-full flex flex-col items-center justify-center gap-2">
               <span className="text-base text-blue font-semibold">Valor Imóvel</span>
               <div className="flex items-center justify-start gap-1">
-                <InputPreco form={form} name="valor_inicial" placeholder="Valor Inicial" defaultValue={imovelFormSchema?.valor_inicial}/>
-                <InputPreco form={form} name="valor_final" placeholder="Valor Final" defaultValue={imovelFormSchema?.valor_final} />
+                <InputPreco<ImovelNewFormSchema> control={form.control} name="valor_inicial" label="Valor Mínimo" defaultValue={paramData?.valor_inicial} />
+                <InputPreco<ImovelNewFormSchema> control={form.control} name="valor_final" label="Valor Máximo" defaultValue={paramData?.valor_final} />
               </div>              
             </div>                         
-            <div className="w-full flex flex-col items-center justify-center gap-0.5">
+            <div className="w-full flex flex-col items-center justify-center gap-2">
               <span className="text-base text-blue font-semibold">Área total (m²)</span>
-              <div className="flex items-center justify-start gap-1">
-                {/* <InputValor placeholder="Área mínima" />
-                <InputValor placeholder="Área máxima" /> */}
+              <div className="flex items-center justify-start gap-1">                
+                <InputArea placeholder="Área mínima" {...form.register("area_total_min")}/>
+                <InputArea placeholder="Área máxima" {...form.register("area_total_max")} />
               </div>
             </div>
-            <div className="w-full flex flex-col items-center justify-center gap-0.5">
+            <div className="w-full flex flex-col items-center justify-center gap-2">
               <span className="text-base text-blue font-semibold">Área construída (m²)</span>
               <div className="flex items-center justify-start gap-1">
-                {/* <InputValor placeholder="Área mínima" />
-                <InputValor placeholder="Área máxima" /> */}
+                <InputArea placeholder="Área mínima" {...form.register("area_construida_min")}/>
+                <InputArea placeholder="Área máxima" {...form.register("area_construida_max")} />
               </div>
             </div>
           </div>
 
           <div className="w-full flex items-center justify-center gap-4">
-            <Button variant="outline" className="px-4 py-2 cursor-pointer">
+            <button type="button" onClick={() => clearFields()} className="flex items-center justify-center gap-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-500 cursor-pointer">
               <X size={20} />
               Limpar
-            </Button>
+            </button>
 
             <button type="submit" className="flex items-center justify-center gap-2 px-4 py-2 bg-blue text-white rounded hover:bg-blue-600 cursor-pointer">
               <Search size={20} />

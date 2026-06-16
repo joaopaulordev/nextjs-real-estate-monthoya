@@ -11,5 +11,9 @@ export interface Imovel {
   valor: number;
   endereco: string;
   visualizacoes: number;
+  dormitorios: number;
+  banheiros: number;
+  suites: number;
+  vagas_garagem: number;
   fotos: Foto[];
 }

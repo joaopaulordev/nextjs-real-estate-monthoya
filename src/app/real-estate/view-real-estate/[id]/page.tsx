@@ -1,18 +1,23 @@
-import { ImageSlider } from "@/components/image-slider";
+'use client';
+
 import ImageGalleryModal from "@/components/image-slider/image-gallery-modal";
 import { ListRealEstates } from "@/components/list-real-estates";
 import { Button } from "@/components/ui/button";
+import useConfiguracoes from "@/contexts/configuracao/hooks/use-configuracoes";
+import useImoveisDestaque from "@/contexts/imovel/hooks/use-imoveis-destaque";
 import { MapPin, Share2 } from "lucide-react"
-
-type RealEstatePageProps = {
-  params: Promise<{
-    id: string;
-  }>;
-};
+import { useParams } from 'next/navigation';
 
 
-export default async function RealEstates({ params }: RealEstatePageProps) {
-  const { id } = await params;
+
+
+
+export default function RealEstate() {
+  const params = useParams();
+  const id = params.id; 
+
+  const { responseConfiguracoes, isLoadingConfiguracoes } = useConfiguracoes();
+  const { responseDestaque, isLoadingImoveisDestaque } = useImoveisDestaque(responseConfiguracoes[0]?.quantidade);
 
   return (
     <div className="border-t border-blue w-full mb-10">   
@@ -76,7 +81,7 @@ export default async function RealEstates({ params }: RealEstatePageProps) {
                     </p>            
                 </div>
                 <div className="bg-primary-50 p-4 rounded-lg w-full flex flex-col gap-4">
-                    <h2 className="text-2xl font-semibold">Mais Detalhes do Imóvel</h2>
+                    <h2 className="text-2xl font-semibold">Características do Imóvel</h2>
                     <ul className="list-disc list-inside text-gray-700 text-base gap-2 flex flex-col">
                         <li>Localização Privilegiada: Próximo a escolas, supermercados e transporte público.</li>
                         <li>Condomínio com segurança 24 horas.</li>
@@ -100,7 +105,7 @@ export default async function RealEstates({ params }: RealEstatePageProps) {
                 </div>
                 <div className="bg-primary-50 pt-3 pl-3 pb-5 rounded-lg w-full flex flex-col gap-0">
                     <h2 className="text-2xl font-semibold">Imóveis semelhantes</h2>
-                    <ListRealEstates quantity={3} />
+                    <ListRealEstates buttonIsVisible={false} imoveis={responseDestaque} />
                 </div>
             </div>  
             <div className="sticky top-4 flex flex-col items-start justify-center gap-4 w-full max-w-xsS">
@@ -130,7 +135,7 @@ export default async function RealEstates({ params }: RealEstatePageProps) {
                     </Button>
                 </form>
                 <div className="flex flex-col gap-4 bg-accent p-4 rounded-lg w-full">
-                    <h3 className="text-blue text-lg font-bold">Todas Características</h3>                    
+                    <h3 className="text-blue text-lg font-bold">Todos Detalhes do Imóvel</h3>                    
                     <ul className="list-disc list-inside text-blue text-base gap-2 flex flex-col">
                         <li>Área Privativa de 150 m²</li>
                         <li>Área Total de 250 m²</li>

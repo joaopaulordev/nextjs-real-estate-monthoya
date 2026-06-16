@@ -14,9 +14,13 @@ interface UseImoveisListar {
   tipo_imoveis?: number[];
   valor_inicial?: number | 0;
   valor_final?: number | 0;
+  dormitorios?: number | 0;
+  banheiros?: number | 0;
+  suites?: number | 0;
+  vagas?: number | 0;
 }
 
-export default function useImoveisListar( params: UseImoveisListar) {  
+export default function useImoveisListar( params: UseImoveisListar) {    
   const { data: response, isLoading, isError, error } = useQuery<Response>({
     queryKey: ['imoveis-listar', params],
     queryFn: () => api.post("/imoveis/listar", { ...params }).then((res) => res.data),

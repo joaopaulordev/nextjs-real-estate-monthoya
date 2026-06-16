@@ -4,43 +4,50 @@ import { FilterRealEstates } from "@/components/filter-real-estates/filter-real-
 import { ListRealEstates } from "@/components/list-real-estates/list-real-estates";
 import useImoveisListar from "@/contexts/imovel/hooks/use-imoveis-listar";
 import { ImovelNewFormSchema } from "@/contexts/imovel/models/schema-imovel";
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useEffect } from "react";
 
+
 export default function RealEstates() {
-  const [paramData, setParamData] = React.useState<ImovelNewFormSchema | undefined>(undefined);
+  const [paramToSearch, setParamToSearch] = React.useState<ImovelNewFormSchema>();  
   
   const params = useParams();
   const action = params.action; 
 
-  const searchParams = useSearchParams();
-  const rawData = searchParams.get('data'); // Extract 'data' from URL
-
   const title = "Pesquise Imóveis em Paranavaí-PR";
   if (action === "search") {      
-    useEffect(() => {      
-      setParamData(JSON.parse(decodeURIComponent(rawData || "")));      
-    }, []);    
+    useEffect(() => {
+      const rawData = sessionStorage.getItem('sharedObject');
+      if (rawData) {        
+        setParamToSearch(JSON.parse(rawData))                
+        sessionStorage.removeItem('sharedObject');
+      }
+    }, []);
   }
 
-  const handleFilterResponse = (responseFilter: ImovelNewFormSchema) => {      
-    setParamData(responseFilter);        
+  const handleFilterResponse = (responseFilter: ImovelNewFormSchema) => {   
+    console.log("responseFilter = ", responseFilter)           
+    setParamToSearch(responseFilter);        
   };
   
   const { response, responseCount, isLoading} = useImoveisListar({
     ativo: true,
-    finalidade: Number(paramData?.finalidadeId || 0),
-    pretensao: Number(paramData?.pretensaoId || 0),
-    tipo_imoveis: paramData?.tipoImoveis?.map((tipo: { value: number; label: string }) => tipo.value) || [],
-    valor_inicial: Number(paramData?.valor_inicial || 0),
-    valor_final: Number(paramData?.valor_final || 0)
+    finalidade: Number(paramToSearch?.finalidadeId || 0),
+    pretensao: Number(paramToSearch?.pretensaoId || 0),
+    tipo_imoveis: paramToSearch?.tipoImoveis?.map((tipo: { value: number; label: string }) => tipo.value) || [],
+    valor_inicial: Number(paramToSearch?.valor_inicial || 0),
+    valor_final: Number(paramToSearch?.valor_final || 0),
+    dormitorios: Number(paramToSearch?.dormitorios || 0),
+    banheiros: Number(paramToSearch?.banheiros || 0),
+    suites: Number(paramToSearch?.suites || 0),
+    vagas: Number(paramToSearch?.vagas || 0)
   });  
 
   return (
     <div className="border-t border-blue w-full mb-10">        
       <h2 className="text-2xl text-blue mt-4 mb-4">{title}</h2>   
      
-      <FilterRealEstates count={responseCount} imovelFormSchema={paramData} onSubmit={handleFilterResponse} />   
+      <FilterRealEstates count={responseCount} paramData={paramToSearch} onTrigger={handleFilterResponse} />   
       
       <ListRealEstates buttonIsVisible={false} imoveis={response} />
     </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { Search } from 'lucide-react';
 import useFinalidades from '@/contexts/finalidade/hooks/use-finalidades';
 import usePretensoes from '@/contexts/pretensao/hooks/use-pretensoes';
@@ -11,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { imovelNewFormSchema, ImovelNewFormSchema } from '@/contexts/imovel/models/schema-imovel';
 
 
-import { InputPreco } from '../input-valor/input-preco';
+import { InputPreco } from '../input-preco/input-preco';
 
 
 export const SectionHero = () => {
@@ -27,10 +29,11 @@ export const SectionHero = () => {
       },
   });
 
-  function handleSubmit(payload: ImovelNewFormSchema) {
-    console.log("payload = ", payload);
-    const serializedData = encodeURIComponent(JSON.stringify(payload));
-    router.push(`/real-estate/list/search?data=${serializedData}`);
+  function handleSubmit(payload: ImovelNewFormSchema) {   
+    sessionStorage.setItem('sharedObject', JSON.stringify(payload));
+    router.push('/real-estate/list/search');
+    // const serializedData = encodeURIComponent(JSON.stringify(payload));
+    // router.push(`/real-estate/list/search?data=${serializedData}`);
   }
 
 
@@ -54,9 +57,8 @@ export const SectionHero = () => {
                 <SelectDropdown list={responseFinalidades} placeholder="Finalidade" {...form.register("finalidadeId", { required: "Selecione uma finalidade" })}/>
                 <SelectDropdown list={responsePretensoes} placeholder="Pretensão" {...form.register("pretensaoId", { required: "Selecione uma pretensão" })}/>
               
-                <InputPreco form={form} name="valor_inicial" placeholder="Valor Inicial"/>
-                <InputPreco form={form} name="valor_final" placeholder="Valor Final"/>
-
+                <InputPreco<ImovelNewFormSchema> control={form.control} name="valor_inicial" label="Valor Mínimo" />
+                <InputPreco<ImovelNewFormSchema> control={form.control} name="valor_final" label="Valor Máximo" />
               </div>
               <div className="flex items-center justify-start gap-4 w-full">
                 <Controller

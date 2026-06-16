@@ -4,7 +4,7 @@ import { Pretensao } from "@/contexts/pretensao/models/pretensao";
 interface SelectDropdownProps {
   list: Finalidade[] | Pretensao[]; 
   placeholder?: string;
-  selectedValue?: string;
+  selectedValue?: string | null;
 }
 
 export const SelectDropdown = ({ list, placeholder, selectedValue, ...props }: SelectDropdownProps) => {
