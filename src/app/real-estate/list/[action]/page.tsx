@@ -40,7 +40,11 @@ export default function RealEstates() {
     dormitorios: Number(paramToSearch?.dormitorios || 0),
     banheiros: Number(paramToSearch?.banheiros || 0),
     suites: Number(paramToSearch?.suites || 0),
-    vagas: Number(paramToSearch?.vagas || 0)
+    vagas: Number(paramToSearch?.vagas || 0),
+    area_total_min: Number(paramToSearch?.area_total_min || 0),
+    area_total_max: Number(paramToSearch?.area_total_max || 0),
+    area_construida_min: Number(paramToSearch?.area_construida_min || 0),
+    area_construida_max: Number(paramToSearch?.area_construida_max || 0)
   });  
 
   return (

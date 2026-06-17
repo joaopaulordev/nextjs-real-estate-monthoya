@@ -18,6 +18,10 @@ interface UseImoveisListar {
   banheiros?: number | 0;
   suites?: number | 0;
   vagas?: number | 0;
+  area_total_min: number | 0;
+  area_total_max: number | 0;
+  area_construida_min: number | 0;
+  area_construida_max: number | 0;
 }
 
 export default function useImoveisListar( params: UseImoveisListar) {    

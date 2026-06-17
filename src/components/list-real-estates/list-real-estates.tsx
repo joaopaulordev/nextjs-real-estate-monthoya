@@ -1,5 +1,3 @@
-'use client'
-
 import { Imovel } from "@/contexts/imovel/models/imovel";
 import usePretensoes from "@/contexts/pretensao/hooks/use-pretensoes";
 import useTipoImoveis from "@/contexts/tipo-imovel/hooks/use-tipo-imovel";
@@ -55,13 +53,13 @@ export const ListRealEstates = ({ title, imoveis, type, buttonIsVisible = true }
                   </div>                
                   <hr className="border-t border-gray-300 my-4"></hr>
                   <div className="mt-2 flex items-center justify-center gap-2">
-                    <img src="/Total-Beds.png" alt="Total de quartos" className="w-5 h-5"/>
+                    <img src="/Total-Beds.png" alt="Total de quartos" title="Total de quartos" className="w-5 h-5"/>
                     <span className="text-xs mr-2 text-gray-400">{imovel.dormitorios}</span>
-                    <img src="/suite.png" alt="Total de suítes" className="w-5 h-5"/>
+                    <img src="/suite.png" alt="Total de suítes" title="Total de suítes" className="w-5 h-5"/>
                     <span className="text-xs mr-2 text-gray-400">{imovel.suites}</span>
-                    <img src="/Total-Bathrooms.png" alt="Total de banheiros" className="w-5 h-5" />
+                    <img src="/Total-Bathrooms.png" alt="Total de banheiros" title="Total de banheiros" className="w-5 h-5" />
                     <span className="text-xs mr-2 text-gray-400">{imovel.banheiros}</span>
-                    <img src="/Total-Parking.png" alt="Total de vagas de estacionamento" className="w-5 h-5" />
+                    <img src="/Total-Parking.png" alt="Total de vagas de estacionamento" title="Total de vagas de estacionamento" className="w-5 h-5" />
                     <span className="text-xs text-gray-400">{imovel.vagas_garagem}</span>
                   </div>            
                 </div>
