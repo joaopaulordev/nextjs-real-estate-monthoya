@@ -24,6 +24,8 @@ pnpm add react-hook-form zod @hookform/resolvers
 
 pnpm add react-select
 
+pnpm add sonner
+
 --------------------------------------------------------
 git init
 git log

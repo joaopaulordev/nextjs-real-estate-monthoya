@@ -25,8 +25,7 @@ export default function RealEstates() {
     }, []);
   }
 
-  const handleFilterResponse = (responseFilter: ImovelNewFormSchema) => {   
-    console.log("responseFilter = ", responseFilter)           
+  const handleFilterResponse = (responseFilter: ImovelNewFormSchema) => {                 
     setParamToSearch(responseFilter);        
   };
   
