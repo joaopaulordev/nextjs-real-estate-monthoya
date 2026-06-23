@@ -32,8 +32,6 @@ export const SectionHero = () => {
   function handleSubmit(payload: ImovelNewFormSchema) {   
     sessionStorage.setItem('sharedObject', JSON.stringify(payload));
     router.push('/real-estate/list/search');
-    // const serializedData = encodeURIComponent(JSON.stringify(payload));
-    // router.push(`/real-estate/list/search?data=${serializedData}`);
   }
 
 

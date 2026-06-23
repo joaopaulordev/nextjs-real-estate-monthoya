@@ -7,7 +7,7 @@ import Link from "next/link";
 
 interface ListRealEstatesProps {
   title?: string;
-  imoveis: Imovel[];
+  imoveis: Imovel[]; 
   type?: string;
   buttonIsVisible?: boolean;
 }

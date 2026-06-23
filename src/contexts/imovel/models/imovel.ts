@@ -21,6 +21,8 @@ export interface Imovel {
   area_construida: number;
   area_total: number;
   sobre_imovel: string;
+  localizacao_desc: string;
+  localizacao_img: string;
   fotos: Foto[];
   caracteristicas: Caracteristica[];
 }

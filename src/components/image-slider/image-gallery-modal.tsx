@@ -12,7 +12,7 @@ export default function ImageGalleryModal({ fotos }: ImageGalleryModalProps) {
   if (fotos === undefined){
     images = []
   } else {
-    images = fotos?.map(foto => `http://127.0.0.1:8080/${foto.caminho}`);
+    images = fotos?.map(foto => `${process.env.NEXT_PUBLIC_API_URL}/${foto.caminho}`);
   }    
   
   // State handles the index of the currently open image (null means modal is closed)
