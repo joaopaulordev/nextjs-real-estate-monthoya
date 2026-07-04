@@ -10,3 +10,7 @@ export async function setTokenCookie(tokenValue: string) {
     })
 }
 
+export async function getTokenCookie() {
+    const cookieStore = await cookies();
+    return cookieStore.get('token')?.value;
+}   

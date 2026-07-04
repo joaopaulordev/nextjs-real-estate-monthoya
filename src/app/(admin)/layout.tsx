@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import { cn } from "@/lib/utils";
 import { isAuthenticated } from "@/auth/auth";
 import { redirect } from "next/navigation";
+import { Sidebar } from "./components/sidebar";
+import QueryProvider from "../QueryProvider";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,7 +25,14 @@ export default async function AdminLayout({
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body>        
-        <div>{children}</div>
+        <div className="flex items-start justify-start h-full dark:bg-zinc-900">
+          <QueryProvider>
+            <Sidebar />
+            <main className="max-w-[100vw] max-h-[100vw] px-4 pb-12 pt-24">
+              {children}
+            </main>  
+          </QueryProvider> 
+        </div>
       </body>
     </html>
   );

@@ -1,5 +1,3 @@
-// "use client";
-
 import { useQuery } from "@tanstack/react-query";
 import { fetcher, api } from "@/helpers/api";
 import { ResponseFinalidade } from "../models/responseFinalidade";

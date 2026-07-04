@@ -27,6 +27,8 @@ pnpm add react-select
 
 pnpm add sonner
 
+pnpm add tailwind-variants
+
 --------------------------------------------------------
 git init
 git log

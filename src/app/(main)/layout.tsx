@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/footer";
-import QueryProvider from "./QueryProvider";
+import QueryProvider from "../QueryProvider";
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
