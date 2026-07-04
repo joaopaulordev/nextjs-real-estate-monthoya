@@ -59,7 +59,7 @@ export const ListRealEstates = ({ title, imoveis, type, buttonIsVisible = true }
                     <span className="text-xs mr-2 text-gray-400">{imovel.suites}</span>
                     <img src="/Total-Bathrooms.png" alt="Total de banheiros" title="Total de banheiros" className="w-5 h-5" />
                     <span className="text-xs mr-2 text-gray-400">{imovel.banheiros}</span>
-                    <img src="/Total-Parking.png" alt="Total de vagas de estacionamento" title="Total de vagas de estacionamento" className="w-5 h-5" />
+                    <img src="/Total-Parking.png" alt="Total de vagas garagem" title="Total de vagas garagem" className="w-5 h-5" />
                     <span className="text-xs text-gray-400">{imovel.vagas_garagem}</span>
                   </div>            
                 </div>

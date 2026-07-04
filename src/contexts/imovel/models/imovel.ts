@@ -9,6 +9,7 @@ export interface Imovel {
   destaque: boolean;
   pretensao: number;
   tipo_imovel: number;
+  finalidade: number;
   valor: number;
   endereco: string;
   visualizacoes: number;

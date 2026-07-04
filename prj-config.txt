@@ -8,6 +8,7 @@ pnpm dlx shadcn@latest add field
 pnpm dlx shadcn@latest add card 
 pnpm dlx shadcn@latest add label
 pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add alert
 
 pnpm install tailwind-merge
 pnpm install clsx

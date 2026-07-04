@@ -4,8 +4,6 @@ import ImageGalleryModal from "@/components/image-slider/image-gallery-modal";
 import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react"
 import { ListRealEstates } from "@/components/list-real-estates";
-import useConfiguracoes from "@/contexts/configuracao/hooks/use-configuracoes";
-import useImoveisDestaque from "@/contexts/imovel/hooks/use-imoveis-destaque";
 import { useParams } from "next/navigation";
 import usePretensoes from "@/contexts/pretensao/hooks/use-pretensoes";
 import useTipoImoveis from "@/contexts/tipo-imovel/hooks/use-tipo-imovel";
@@ -18,6 +16,7 @@ import { useEffect, useState } from "react";
 import useImovelView from "@/contexts/imovel/hooks/use-imovel-view";
 import useConfigWhatsapp from "@/contexts/config-whatsapp/hooks/use-config-whatsapp";
 import useImoveisSimilares from "@/contexts/imovel/hooks/use-imoveis-similares";
+import useFinalidades from "@/contexts/finalidade/hooks/use-finalidades";
 
 
 export default function RealEstate() {
@@ -34,6 +33,7 @@ export default function RealEstate() {
     
   const { responseImoveisSimilares, isLoadingImoveisSilares } = useImoveisSimilares(Number(id));
 
+  const { responseFinalidades, isLoadingFinalidades } = useFinalidades();
   const { responsePretensoes, isLoadingPretensoes } = usePretensoes();
   const { responseTipoImoveis, isLoadingTipoImoveis } = useTipoImoveis();
 
@@ -47,10 +47,9 @@ export default function RealEstate() {
 
   const {
     register,
-    handleSubmit,
-    reset,
+    handleSubmit,    
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(interessadoNewFormSchema),
     defaultValues: {
@@ -103,6 +102,7 @@ export default function RealEstate() {
                   ) : (
                       <span className="bg-amber-500 text-white text-xs font-bold px-3 py-2 rounded">Locação</span>                                                                          
                   )}                 
+                <span className="bg-blue text-white text-xs font-bold px-3 py-2 rounded">{responseFinalidades.find((f) => f.id === responseImovel?.finalidade)?.descricao}</span>         
                 <span className="bg-blue text-white text-xs font-bold px-3 py-2 rounded">{responseTipoImoveis.find((t) => t.id === responseImovel?.tipo_imovel)?.descricao}</span>         
                 <span className="bg-blue text-white text-xs font-bold px-3 py-2 rounded">Código: {responseImovel?.id}</span> 
             </div>  

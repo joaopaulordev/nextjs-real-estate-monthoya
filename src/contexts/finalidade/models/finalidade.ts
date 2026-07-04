@@ -1,4 +1,4 @@
 export interface Finalidade {
-     id: string;
+     id: number;
      descricao: string;
 }
