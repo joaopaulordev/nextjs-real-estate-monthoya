@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, PT_Sans_Caption } from 'next/font/google';
-import "./globals.css";
+import "../globals.css";
 import { Header } from "@/components/header";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/footer";

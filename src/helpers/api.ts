@@ -1,4 +1,4 @@
-import { getTokenCookie } from "@/app/auth/sign-in/actions";
+import { getTokenCookie, deleteTokenCookie } from "@/app/auth/sign-in/actions";
 import axios, { type AxiosRequestConfig } from "axios";
 
 export const api = axios.create({
@@ -18,15 +18,16 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;      
     }
 
-    console.log('Token added to request headers:', token);
-
     return config;
-  },
-  (error) => {
-    console.log('Error in request interceptor:', error);
-    return Promise.reject(error);
   }
 );
+
+api.interceptors.response.use(res => res, err => {  
+  if (err.response?.status === 401) {     
+    deleteTokenCookie();    
+  }
+  return Promise.reject(err);
+});
 
 
 export const fetcher = (url: string, options: AxiosRequestConfig = {}) =>

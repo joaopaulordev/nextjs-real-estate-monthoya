@@ -29,6 +29,10 @@ pnpm add sonner
 
 pnpm add tailwind-variants
 
+pnpm add -D @svgr/webpack
+
+pnpm add use-local-storage
+
 --------------------------------------------------------
 git init
 git log

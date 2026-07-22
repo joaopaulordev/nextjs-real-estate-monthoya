@@ -10,15 +10,15 @@ type ActiveLinkProps = {
 export const ActiveLink = ({ children, href, ...rest }: ActiveLinkProps) => {
   const linkPath = typeof href === 'string' ? href : href.pathname;
   const pathname = usePathname();
-  const isActive = pathname === linkPath || pathname?.startsWith(`${linkPath}/`);
+  const isActive = pathname === linkPath; //|| pathname?.startsWith(`${linkPath}/`);
 
   return (
     <Link
       {...rest}
       href={href}
       className={cn(
-        'text-action-sm transition-colors hover:text-black',
-        isActive ? 'bg-blue text-white hover:text-white rounded p-2' : 'text-black/60'
+        'hover:text-gray-300',
+        isActive ? 'bg-blue text-white hover:text-white rounded p-2' : 'text-black'
       )}
     >
       {children}

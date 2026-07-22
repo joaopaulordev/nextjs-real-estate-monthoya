@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { deleteTokenCookie } from '@/app/auth/sign-in/actions'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -6,8 +6,7 @@ export async function GET(request: NextRequest) {
 
   redirectUrl.pathname = '/auth/sign-in'
 
-  const cookieStore = await cookies()
-  cookieStore.delete('token')
+  deleteTokenCookie()
 
   return NextResponse.redirect(redirectUrl)
 }

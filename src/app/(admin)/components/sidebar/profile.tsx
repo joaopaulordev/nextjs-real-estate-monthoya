@@ -5,17 +5,11 @@ import { LogOut } from 'lucide-react'
 import axios from 'axios';
 
 export function Profile() {
-  try {
-    const { responseProfile, isLoadingProfile } = useGetProfile();
-  } catch (error: unknown) {      
-      if (axios.isAxiosError(error)) {
-        // setError(error.response?.data.detail)
-        console.log("error.response = ", error)
-      } 
-    }  
+
+  const { responseProfile, isLoadingProfile } = useGetProfile();
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 ml-2">
       {/* <img
         src="https://github.com/joaopaulordev.png"
         className="h-10 w-10 rounded-full"
@@ -24,10 +18,10 @@ export function Profile() {
 
       <div className="flex flex-col truncate">
         <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-100">
-          {/* {responseProfile?.nome} */}
+          {responseProfile?.nome}
         </span>
         <span className="truncate text-sm text-zinc-500 dark:text-zinc-400">
-          {/* {responseProfile?.email} */}
+          {responseProfile?.email}
         </span>
       </div>
 

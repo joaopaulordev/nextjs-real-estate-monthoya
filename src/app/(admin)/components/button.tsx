@@ -1,28 +1,77 @@
-import { ComponentProps } from 'react'
-import { tv, VariantProps } from 'tailwind-variants'
+import { cva, type VariantProps } from "class-variance-authority";
+import Icon from "./icon";
+import Text from "./text";
+import SpinnerIcon from "../assets/icons/spinner.svg";
 
-const button = tv({
-  base: [
-    'rounded-lg px-4 py-2 text-sm font-semibold outline-none shadow-sm',
-    'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500',
-    'active:opacity-80',
-  ],
+export const buttonVariants = cva(
+  `
+    flex items-center justify-center cursor-pointer
+    transition rounded-lg group gap-2
+  `,
+  {
+    variants: {
+      variant: {
+        primary: "bg-blue text-white hover:bg-blue-700",
+      },
+      size: {
+        md: "h-14 py-4 px-5",
+      },
+      disabled: {
+        true: "opacity-50 pointer-events-none",
+      },
+      handling: {
+        true: "pointer-events-none",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+      disabled: false,
+      handling: false,
+    },
+  }
+);
 
+export const buttonIconVariants = cva("transition", {
   variants: {
     variant: {
-      primary: 'bg-violet-600 text-white hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600',
-      ghost: 'rounded-md px-2 hover:bg-zinc-50 dark:hover:bg-white/5 shadow-none text-zinc-500 dark:text-zinc-400:',
-      outline: 'border border-zinc-300 text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800',
+      primary: "fill-pink-base",
+    },
+    size: {
+      md: "w-5 h-5",
     },
   },
-
   defaultVariants: {
-    variant: 'primary',
+    variant: "primary",
+    size: "md",
   },
-})
+});
 
-export type ButtonProps = ComponentProps<'button'> & VariantProps<typeof button>
+export const buttonTextVariants = cva("", {
+  variants: {
+    variant: {
+      primary: "text-white",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
 
-export function Button({ variant, className, ...props }: ButtonProps) {
-  return <button {...props} className={button({ variant, className })} />
+interface ButtonProps extends Omit<React.ComponentProps<"button">, "size" | "disabled">, VariantProps<typeof buttonVariants> {
+  icon?: React.ComponentProps<typeof Icon>["svg"];
+  handling?: boolean;
+}
+
+export default function Button({ variant, size, disabled, className, children, handling, icon, ...props }: ButtonProps) {
+  return (
+    <button className={buttonVariants({ className, disabled, size, variant, handling })} {...props}>        
+      {icon && (
+        <Icon svg={handling ? SpinnerIcon : icon} animate={handling} className={buttonIconVariants({ variant, size })} />
+      )}
+      <Text variant="body-md-bold" className={buttonTextVariants({ variant })}>
+        {children}
+      </Text>
+    </button>
+  );
 }
